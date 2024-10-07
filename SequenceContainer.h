@@ -1,137 +1,120 @@
-#pragma once
 #include <iostream>
-#include "Node.h"
-#include "iterator.h"
-
+#include <array>
+#include <algorithm>
+template <typename T>
 class SequenceContainer 
 {
-    private:
-        int deleted = 0;
-        Node *head;
-        Node *tail;
-
-        iterator head_it;
-        iterator tail_it;
-
     public:
-        friend class Node;
-        friend class iterator;
-        iterator front() {return head_it;}
-        iterator back() {return tail_it;}
-
-        int size()
+        size_t N;
+        int deleted = 0;
+        T operator[](int index)
         {
-            int counter = 0;
-            for (iterator start = head_it; start.node != tail_it.node; ++start)
-            {
-                ++counter;
-            }
-            std::cout << "Size: " << counter << std::endl;
-            return size;
-
+            return data[index];
         }
-        SequenceContainer()
+        // SequenceContainer& operator=(const SequenceContainer &swap)
+        // {
+        //     data = swap.data;
+        //     return *this;
+        // }
+        SequenceContainer(size_t _N = 10)
         {
-            head = tail = new Node;
-            tail->next = nullptr;
-            tail->prev = nullptr;
-
-            head_it = iterator(head);
-            tail_it = iterator(tail);
+            N = _N;
         }
-
-        ~SequenceContainer()
+        test()
         {
-            Node *to_delete = head;
-            for (Node *start = head; start != tail;)
-            {
-                start = start->next;
-                delete to_delete;
-                to_delete = start;
-            }
-            delete to_delete;
+            return *data;
         }
-
-        void add_front(int value)
+        SequenceContainer(const SequenceContainer<T> &other)
         {
-            Node *to_add = new Node(value);
-            to_add->next = head;
-            to_add->prev = nullptr;
-            head->prev = to_add;
-            head = to_add;
-            head_it = iterator(head);
-        }
-        void add_back(int value)
-        {
-            if (isempty())
+            for (size_t i = 0; i < N; ++i)
             {
-                add_front(value);
-            }
-            else
-            {
-                Node *to_add = new Node(value);
-                to_add->next = tail;
-                to_add->prev = tail->prev;
-                tail->prev->next = to_add;
-                tail->prev = to_add;
-
-                tail_it = iterator(tail);
+                    data[i] = other.data[i];
             }
         }
-        void add_middle(int value)
+        CopyArr(size_t N)
         {
-            if (isempty())
+
+        }
+        void resize()
+        {
+            size_t newN = 2*N;
+            T *newCont = new T[newN];
+            memcpy(newCont, data, N*sizeof(T));
+            N = newN;
+            delete[] data;
+            data = newCont;
+        }
+        void insert(int value, int index)
+        {
+            T *temp = new T[N+1];
+            N = N+1;
+            size_t shift = 0;
+            for (size_t i = 0; i < N+1; i++)
             {
-                add_front(value);
-            }
-            else
-            {
-                int i = 0;
-                iterator temp = iterator(head);
-                while(i <= size()/2)
+                if (i != index)
+                    temp[i] = data[i-shift];
+                else
                 {
-                    ++temp;
-                    i++;
-                }
-                --temp;
-                Node *to_add = new Node(value);
-                to_add->prev = temp.node;
-                to_add->next = temp.node->next;
-                temp.node->next = to_add;
-                temp.node->next->next->prev = to_add;
-            }
-        }
-        bool liquidate(int n)
-        {
-            int i = 0;
-            iterator temp = iterator(head);
-            while (i+deleted != n)
-            {
-                ++temp;
-                i++;
-                if (i > n)
-                {
-                    return false;
+                    temp[i] = value;
+                    shift++;
                 }
             }
-            temp.node->prev->next = temp.node->next;
-            temp.node->next->prev = temp.node->prev;
-            delete temp.node;
+            delete []data;
+            data = temp;
+            realsizem++;
+            
+        }
+        void liquidate(int index)
+        {
+            realsizem--;
+            T *temp = new int[N-1];
+            N = N-1;
+            size_t shift = 0;
+            for (size_t i = 0; i < N; i++)
+            {
+                if (i+deleted != index-1)
+                    temp[i] = data[i+shift];
+                else
+                {
+                    temp[i] = data[i+1];
+                    shift = 1;
+                }
+            }
+            delete []data;
             deleted++;
-            return true;
-
+            data = temp;
+            
         }
-        void print() const
+        size_t realsize()
         {
-            for (iterator start = head_it; start.node != tail_it.node; ++start)
+            return realsizem;
+        }
+        size_t maxsize()
+        {
+            return N;
+        }
+        void push_back(const T &value)
+        {
+            if (realsizem == maxsize())
             {
-                start.node->print_val();
+                resize();
+            }
+            data[realsize()] = value;
+            realsizem++;
+        }
+        void print()
+        {
+            for (auto i = 0; i < realsize(); i++)
+            {
+                std::cout << data[i] << " ";
             }
             std::cout << std::endl;
         }
-        bool isempty()
+        ~SequenceContainer()
         {
-            return (head == tail);
+            delete[] data;
         }
-
+    private:
+        T *data = new int[N]{};
+        size_t realsizem = 0;
 };

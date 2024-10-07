@@ -2,7 +2,7 @@
 #include <iostream>
 class Node 
 {
-    friend class SequenceContainer;
+    friend class ListTypeContainer;
     friend class iterator;
 
     public:

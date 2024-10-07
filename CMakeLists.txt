@@ -9,7 +9,8 @@ find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 configure_file(version.h.in version.h)
 
-add_executable(lab3_c main.cpp)
+add_executable(lab3_c ListTypeContainer.cpp)
+add_executable(lab3_c2 SequenceContainer.cpp)
 add_library(lab3 lib.cpp)
 add_executable(test_version test_version.cpp)
 

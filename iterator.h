@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "SequenceContainer.h"
+#include "ListTypeContainer.h"
 #include "Node.h"
 
 class iterator
@@ -8,7 +8,7 @@ class iterator
     private:
         Node *node;
     public:
-        friend class SequenceContainer;
+        friend class ListTypeContainer;
 
         iterator(): node(0){};
         iterator(Node *inode): node(inode){};
