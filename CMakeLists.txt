@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.15)
 
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VESRION 0.0.${PATCH_VERSION})
@@ -14,7 +14,7 @@ add_executable(lab3_c2 SequenceContainer.cpp)
 add_library(lab3 lib.cpp)
 add_executable(test_version test_version.cpp)
 
-set_target_properties(lab3_c lab3 test_version PROPERTIES
+set_target_properties(lab3_c lab3 lab3_c2 test_version PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
 )
@@ -29,6 +29,9 @@ set_target_properties(test_version PROPERTIES
 target_link_libraries(lab3_c PRIVATE
     lab3
 )
+target_link_libraries(lab3_c2 PRIVATE
+    lab3
+)
 target_link_libraries(test_version
     ${Boost_LIBRARIES}
     lab3
@@ -38,6 +41,7 @@ target_link_libraries(test_version
 
 
 install(TARGETS lab3_c RUNTIME DESTINATION bin)
+install(TARGETS lab3_c2 RUNTIME DESTINATION bin)
 
 if (APPLE)
     set(CPACK_GENERATOR ZIP)
