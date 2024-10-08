@@ -37,13 +37,14 @@ class ListTypeContainer
         {
             return *(head_it);
         }
+        
         iterator operator+(int value)
         {
             iterator temp = head_it;
             for (auto i = 0; i < value; i++)
             {
                 temp.node = temp.node->next;
-            }ы
+            }
             return temp;
         }
         ListTypeContainer(ListTypeContainer && moved)
