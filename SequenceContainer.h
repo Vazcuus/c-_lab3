@@ -11,14 +11,15 @@ class SequenceContainer
         {
             return data[index];
         }
-        // SequenceContainer& operator=(const SequenceContainer &swap)
-        // {
-        //     data = swap.data;
-        //     return *this;
-        // }
+        SequenceContainer& operator=(const SequenceContainer &swap)
+        {
+            delete[] data;
+            data = swap.data;
+            return *this;
+        }
         SequenceContainer(size_t _N = 10)
         {
-            N = _N;
+            N = _N+1;
         }
         test()
         {
@@ -37,52 +38,52 @@ class SequenceContainer
         }
         void resize()
         {
-            size_t newN = 2*N;
+            size_t newN = 2*(N-1)+1;
             T *newCont = new T[newN];
             memcpy(newCont, data, N*sizeof(T));
             N = newN;
             delete[] data;
             data = newCont;
         }
-        void insert(int value, int index)
+        void insert(T value, int index)
         {
-            T *temp = new T[N+1];
-            N = N+1;
-            size_t shift = 0;
-            for (size_t i = 0; i < N+1; i++)
-            {
-                if (i != index)
-                    temp[i] = data[i-shift];
-                else
-                {
-                    temp[i] = value;
-                    shift++;
-                }
-            }
-            delete []data;
-            data = temp;
             realsizem++;
-            
+            if (realsize() >= maxsize())
+            {
+                resize();
+            }
+            size_t shift = 0;
+            for (size_t i = 1; i < realsize()+1; i++)
+            {
+                if (i == index+1)
+                {
+                    shift++;
+                    data[0] = data[i];
+                    data[i] = value;
+                }
+                if (i > index+1)
+                    std::swap(data[i], data[0]);
+            }        
         }
-        void liquidate(int index)
+        void add_middle(T value)
+        {
+            insert(value, realsize()/2);
+        }
+        void liquidate(T index)
         {
             realsizem--;
-            T *temp = new int[N-1];
-            N = N-1;
             size_t shift = 0;
             for (size_t i = 0; i < N; i++)
             {
-                if (i+deleted != index-1)
-                    temp[i] = data[i+shift];
+                if (i+deleted != index)
+                    data[i] = data[i+shift];
                 else
                 {
-                    temp[i] = data[i+1];
+                    data[i] = data[i+1];
                     shift = 1;
                 }
             }
-            delete []data;
             deleted++;
-            data = temp;
             
         }
         size_t realsize()
@@ -93,18 +94,13 @@ class SequenceContainer
         {
             return N;
         }
-        void push_back(const T &value)
+        void push_back(T value)
         {
-            if (realsizem == maxsize())
-            {
-                resize();
-            }
-            data[realsize()] = value;
-            realsizem++;
+            insert(value, realsize());
         }
         void print()
         {
-            for (auto i = 0; i < realsize(); i++)
+            for (auto i = 1; i < realsize()+1; i++)
             {
                 std::cout << data[i] << " ";
             }
@@ -115,6 +111,6 @@ class SequenceContainer
             delete[] data;
         }
     private:
-        T *data = new int[N]{};
+        T *data = new int[N+1]{};
         size_t realsizem = 0;
 };
