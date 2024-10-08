@@ -14,7 +14,7 @@ int main()
     }
     std::cout << std::setw(30) <<"Added 0...9: ";
     cont.print();
-    for (auto i = 3; i <= 7; i+=2)
+    for (auto i = 3; i <= 5; i+=1)
     {
         cont.liquidate(i);
     }

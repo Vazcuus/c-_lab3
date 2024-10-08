@@ -6,7 +6,6 @@
 class ListTypeContainer 
 {
     private:
-        int deleted = 0;
         Node *head;
         Node *tail;
 
@@ -29,6 +28,35 @@ class ListTypeContainer
             return counter;
 
         }
+        int operator[](int index)
+        {
+            return *(head_it+index);
+        }
+
+        int operator*()
+        {
+            return *(head_it);
+        }
+        iterator operator+(int value)
+        {
+            iterator temp = head_it;
+            for (auto i = 0; i < value; i++)
+            {
+                temp.node = temp.node->next;
+            }ы
+            return temp;
+        }
+        ListTypeContainer(ListTypeContainer && moved)
+        {
+            head = moved.head;
+            tail = moved.tail;
+            head_it = moved.head_it;
+            tail_it = moved.tail_it;
+    
+            delete moved.head;
+            delete moved.tail;
+        }
+
         ListTypeContainer()
         {
             head = tail = new Node;
@@ -37,6 +65,17 @@ class ListTypeContainer
 
             head_it = iterator(head);
             tail_it = iterator(tail);
+        }
+        ListTypeContainer& operator=(const ListTypeContainer& copy)
+        {
+            head = tail = new Node;
+            iterator current = copy.head_it;
+
+            for (iterator start = current; start.node != copy.tail_it.node; start++)
+            {
+                add_back(start.node->value);
+            }
+            return *this;
         }
 
         ~ListTypeContainer()
@@ -103,20 +142,14 @@ class ListTypeContainer
         bool liquidate(int n)
         {
             int i = 1;
-            iterator temp = iterator(head);
-            while (i+deleted != n)
+            iterator temp = head_it;
+            while (i != n)
             {
                 ++temp;
                 i++;
-                if (i > n)
-                {
-                    return false;
-                }
             }
             temp.node->prev->next = temp.node->next;
             temp.node->next->prev = temp.node->prev;
-            delete temp.node;
-            deleted++;
             return true;
 
         }

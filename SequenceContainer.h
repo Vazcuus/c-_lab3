@@ -7,7 +7,6 @@ class SequenceContainer
 {
     public:
         size_t N;
-        int deleted = 0;
         T operator[](int index)
         {
             return data[index+1];
@@ -84,7 +83,7 @@ class SequenceContainer
             size_t shift = 0;
             for (size_t i = 0; i < N; i++)
             {
-                if (i+deleted != index)
+                if (i != index)
                     data[i] = data[i+shift];
                 else
                 {
@@ -92,7 +91,6 @@ class SequenceContainer
                     shift = 1;
                 }
             }
-            deleted++;
             
         }
         size_t realsize()

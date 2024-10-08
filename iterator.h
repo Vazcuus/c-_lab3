@@ -32,6 +32,20 @@ class iterator
             return *this;
 
         }
+        iterator& operator++(int)
+        {
+            if (node == 0)
+            {
+                throw "Empty";
+            }
+            if (node->next == 0)
+            {
+                throw "The end";
+            }
+            node = node->next;
+            return *this;
+
+        }
 
         iterator& operator--()
         {
@@ -47,8 +61,7 @@ class iterator
             return *this;
 
         }
-
-        int operator*() const
+        int operator*() 
         {
             if (node == 0)
             {

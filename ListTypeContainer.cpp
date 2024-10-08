@@ -7,14 +7,15 @@
 int main (int, char **) 
 {
     ListTypeContainer cont;
+    ListTypeContainer cont2;
     for (auto i = 0; i < 10; i++)
     {
         cont.add_back(i);
     }
     std::cout << std::setw(30) <<"Added 0...9: ";
     cont.print();
-    std::cout <<  "Size: " <<cont.size() << std::endl;
-    for (auto i = 3; i <= 7; i+=2)
+    std::cout <<  std::setw(30) << "Size: " <<cont.size() << std::endl;
+    for (auto i = 3; i <= 5; i+=1)
     {
         cont.liquidate(i);
     }
@@ -37,8 +38,12 @@ int main (int, char **)
     std::cout << std::setw(30) <<"Insert test: ";
     cont.print();
     std::cout <<  std::setw(30) << "Size: " <<cont.size() << std::endl;
-    std::cout << std::setw(30) <<"operator* : ";
-    cont.print();
-    std::cout << *(cont.begin()+2);
+    std::cout << std::setw(30) <<"operator* index = 2 : ";
+    std::cout << *(cont.begin()+2) << std::endl;
+    std::cout << std::setw(30) << "operator= : ";
+    cont2 = cont;
+    cont2.print();
+    std::cout << std::setw(30) <<"operator* index = 4: "  << *(cont+4) << std::endl;
+    std::cout << std::setw(30) <<"operator[] index = 2 : "  << cont[2] << std::endl;
 }
  
