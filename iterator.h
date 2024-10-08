@@ -56,5 +56,13 @@ class iterator
             }
             return node->value;
         }
+        iterator& operator+(int value)
+        {
+            for (auto i = 0; i < value; i++)
+            {
+                node = node->next;
+            }
+            return *this;
+        }
 
 };

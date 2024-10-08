@@ -9,21 +9,33 @@ class SequenceContainer
         int deleted = 0;
         T operator[](int index)
         {
-            return data[index];
+            return data[index+1];
+        }
+        int* operator+(int value)
+        {
+            return data+value+1;
+        }
+        T operator*()
+        {
+            return *(data);
         }
         SequenceContainer& operator=(const SequenceContainer &swap)
         {
             delete[] data;
             data = swap.data;
+            realsizem = swap.realsizem;
             return *this;
+        }
+        SequenceContainer(SequenceContainer&& swap)
+        {
+            delete[] data;
+            data = swap.data;
+            realsizem = swap.realsizem;
+            delete []swap.data;
         }
         SequenceContainer(size_t _N = 10)
         {
             N = _N+1;
-        }
-        test()
-        {
-            return *data;
         }
         SequenceContainer(const SequenceContainer<T> &other)
         {

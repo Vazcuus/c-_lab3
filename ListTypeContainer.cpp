@@ -37,5 +37,8 @@ int main (int, char **)
     std::cout << std::setw(30) <<"Insert test: ";
     cont.print();
     std::cout <<  std::setw(30) << "Size: " <<cont.size() << std::endl;
+    std::cout << std::setw(30) <<"operator* : ";
+    cont.print();
+    std::cout << *(cont.begin()+2);
 }
  
