@@ -1,6 +1,7 @@
 #include <iostream>
 #include <array>
 #include <algorithm>
+#include <cstring>
 template <typename T>
 class SequenceContainer 
 {
@@ -43,10 +44,6 @@ class SequenceContainer
             {
                     data[i] = other.data[i];
             }
-        }
-        CopyArr(size_t N)
-        {
-
         }
         void resize()
         {

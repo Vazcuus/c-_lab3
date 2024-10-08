@@ -2,6 +2,7 @@
 #include <iostream>
 #include "SequenceContainer.h"
 #include <iomanip>
+#include <cstring>
 int main()
 {
     SequenceContainer<int> cont;
